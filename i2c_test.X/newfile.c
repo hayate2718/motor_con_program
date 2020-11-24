@@ -30,7 +30,7 @@
 #include <stdio.h>
 #define _XTAL_FREQ 8000000
 void I2C_Master_Wait();
-unsigned long pwm_freq = 30000; //7900～100000Hz
+unsigned long pwm_freq = 35000; //7900～100000Hz
 
 void picinit(){
     OSCCON = 0b01110010;
@@ -136,18 +136,18 @@ void putch(char character){
 }
 
 int adc_h(){
-    int adc = 0;
+    unsigned int adc = 0;
     GO = 1;
     while(GO);
     adc = ADRES;
     return adc;
 }
 
-int pwm_h(double volt){
-    int pwm = 0;
-    int poripori = 0;
-    poripori = 1024 / (PR2+1);
-    pwm = volt/poripori;
+int pwm_h(unsigned long volt){
+    unsigned int pwm = 0;
+    unsigned int poripori = 0;
+    poripori = volt * (PR2+1);
+    pwm = poripori / 1024;
     return pwm;
 }
 
